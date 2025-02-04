@@ -1,11 +1,15 @@
 from openai import OpenAI
 from markdown import Markdown
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY") 
 
 #reads in the resume using the markdown library
-filePath = '/resumes/Resume.md'
+filePath = r'C:\Users\ottoh\Documents\python\resumes\OttoRes.md'
 with open(filePath, 'r')as file:
-    inputResume = file.read
+    inputResume = file.read()
 
 #input the job description for the job that you are applying for.
 jobDescripition = input()
@@ -34,6 +38,7 @@ Do not fabricate information. Instead, rephrase and optimize existing content.
 Use strong action verbs and quantifiable achievements where applicable.
 Ensure grammar, spelling, and punctuation are error-free.
 Output the optimized resume in a structured format, ensuring it remains compelling and tailored for the role.
+"""
 
 
 
