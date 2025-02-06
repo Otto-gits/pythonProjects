@@ -4,8 +4,8 @@ from openai import OpenAI
 from markdown import markdown
 from dotenv import load_dotenv
 import pdfkit
-from IPython.display import display, Markdown
-
+path_to_wkhtmltopdf = r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"
+config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
 
 #my API key for openAI's chatGPT.
 load_dotenv()
@@ -85,13 +85,13 @@ finalResponse = response.choices[0].message.content
 response_list = finalResponse.split("## Additional Suggestions")
 
 # saves the new resume as PDF
-output_pdf_file = "resumes/resume_new.pdf"
+output_resume_file = "resumes/resume_new.pdf"
 
 # Convert Markdown to HTML
 html_content = markdown(response_list[0])
 
 # Convert HTML to PDF and save
-pdfkit.from_string(html_content, output_pdf_file)
+pdfkit.from_string(html_content, output_resume_file, configuration=config)
 
 # Display the additional suggestions
-display(Markdown(response_list[1]))
+pdfkit.from_string(markdown(response_list[1]),"resumes/additionalSuggestions.pdf",configuration = config)
