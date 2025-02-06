@@ -1,9 +1,11 @@
 #include the nessacary libraries
 import os
 from openai import OpenAI
-from markdown import Markdown
+from markdown import markdown
 from dotenv import load_dotenv
-from weasyprint import HTML
+import pdfkit
+from IPython.display import display, Markdown
+
 
 #my API key for openAI's chatGPT.
 load_dotenv()
@@ -79,15 +81,17 @@ response = openai_client.chat.completions.create(
 #saves the response of chatGPT
 finalResponse = response.choices[0].message.content
 
-
+#shows the additional suggestions without putting it into the resume
 response_list = finalResponse.split("## Additional Suggestions")
 
-# save as PDF
+# saves the new resume as PDF
 output_pdf_file = "resumes/resume_new.pdf"
 
 # Convert Markdown to HTML
-html_content = markdown.markdown(response_list[0])
+html_content = markdown(response_list[0])
 
 # Convert HTML to PDF and save
-HTML(string=html_content).write_pdf(output_pdf_file, 
-                                    stylesheets=['resumes/style.css'])
+pdfkit.from_string(html_content, output_pdf_file)
+
+# Display the additional suggestions
+display(Markdown(response_list[1]))
